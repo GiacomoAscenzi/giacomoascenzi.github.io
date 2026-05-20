@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Ringraziamenti – Tesi di Laurea</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 28px;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.3);
+            padding: 2rem 2rem 2.5rem;
+            max-width: 550px;
+            width: 100%;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .sub {
+            color: #2c3e66;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #f0f0f0;
+            display: inline-block;
+            padding-bottom: 6px;
+        }
+        .input-group {
+            margin-bottom: 1.8rem;
+            text-align: left;
+        }
+        label {
+            font-weight: 600;
+            color: #1e3c72;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            font-size: 1rem;
+            border: 2px solid #dce4ec;
+            border-radius: 50px;
+            outline: none;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        input:focus {
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42,82,152,0.2);
+        }
+        button {
+            background: #1e3c72;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            margin-top: 8px;
+            letter-spacing: 1px;
+        }
+        button:hover {
+            background: #0f2b4f;
+            transform: scale(0.98);
+        }
+        .error {
+            color: #c0392b;
+            background: #ffe6e5;
+            padding: 12px;
+            border-radius: 50px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: none;
+        }
+        .message-area {
+            background: #eafaf1;
+            border-left: 7px solid #27ae60;
+            padding: 20px;
+            border-radius: 20px;
+            margin-top: 25px;
+            text-align: left;
+            display: none;
+        }
+        .message-area h3 {
+            margin: 0 0 12px 0;
+            color: #1e3c72;
+            font-size: 1.5rem;
+        }
+        .message-area p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .reset-btn {
+            background: #95a5a6;
+            margin-top: 15px;
+            width: auto;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+<div class="card" id="loginCard">
+    <h1>🎓 Grazie di cuore</h1>
+    <div class="sub">Ho un pensiero speciale per te</div>
+
+    <div class="input-group">
+        <label>👤 Inserisci il tuo nome e cognome (non lasciare spazi tra i due)</label>
+        <input type="text" id="userInput" autocomplete="off">
+    </div>
+    <button id="loginBtn">➡️ Scopri il tuo messaggio</button>
+    <div id="errorMsg" class="error">❌ Nome non riconosciuto. Riprova o contattami se pensi sia un errore.</div>
+
+    <footer>🔐 Solo le persone a me vicine hanno accesso</footer>
+</div>
+
+<script>
+    // ------------------------------------------------------------------
+    // 1. DEFINISCI QUI I TUOI MESSAGGI PERSONALIZZATI
+    //    (Aggiungi tutte le persone che vuoi ringraziare)
+    // ------------------------------------------------------------------
+    const messages = {
+	"robertalorenzetti": "Mamma, questo traguardo è tuo quanto mio. Grazie per ogni sacrificio, per ogni notte insonne. Ti voglio bene anche se tante volte non te lo dimostro. Mi hai cresciuto e fatto diventare la persona che sono oggi. Sei una mamma, un'amica, una confidente, l'unica che mi conosce e che sa capirmi con un solo sguardo. Per tutto questo GRAZIE! Spero di averti resa orgogliosa.",
+        "massimoascenzi": "Papà, mi hai insegnato il valore della parola data, dell'importanza di rispettare un impegno preso e  mi mostrato come si sta al mondo. Magari non sempre andiamo d'accordo, abbiamo due caratteri molto simili, tendiamo ad infuocarci subito senza ascoltare quello che l'altra persona ci dice, ma sei sempre stato per me un esempio da ammirare. Spero di averti reso orgoglioso. Grazie per esserci sempre.",
+        "agneseascenzi": "Grazie perché sei te, amorevole a tuo modo, sempre pronta a ricevere un abbraccio. Stai crescendo e la cosa da una parte mi spaventa, dall'altra mi rende anche fiero di quello che stai diventando. Grazie perché anche in lontananza non mi hai messo da parte. Ti voglio bene!",
+        "leonardoascenzi": "Non siamo due chiacchieroni, tu sicuramente anche meno di me, ma con i gesti a volte diciamo tante cose. Mi spiace se puoi esserti sentito violato quando quest'anno ho iniziato a giocare a boccette e a venire più spesso in bocciofila. È il tuo posto, non voglio rubartelo. Volevo solo avvicinarmi a te, perché non ti vedevo sereno e volevo capire cosa ti stesse accadendo, poi per fortuna tutto si è sistemato quando sei tornato con Giulia. Sei il mio bodybuilder preferito. Faccio il tifo per te, qualsiasi cosa tu faccia e vorrai fare. Ti voglio bene!",
+        "giuliatanoni": "Giulietta, per fortuna ci sei te. Quando te ne sei andata hai lasciato un vuoto, oltre che in Leo anche in tutti noi. È stato bello averti ritrovato e penso che mio fratello sia davvero fortunato! Grazie perché ci sei stata per fare due chiacchiere, per aver indagato per me e per aver reso di nuovo Leo una persona felice!  ",
+        "alessandroformenti": "Amico di una vita. Ripenso a quando le nostre mamme ci portarono all'asilo nido, poi alle elementari. Sempre insieme fin da bambini. Finita la scuola, pranzo, compiti e subito al Campo dei Pini o al campetto di Colleverde. Ognuno ha preso la sua strada alle medie ma ci siamo incontrati di nuovo alle superiori, per poi dividerci di nuovo. Macerata ti è sempre stata stretta e te ne sei scappato a Milano. Certo, ci vediamo poco, ma quei pochi giorni che ci vediamo sappiamo farci valere. Grazie per tutte le volte che sei stato ad ascoltarmi per ore senza chiedere nulla in cambio.",
+        "andreapiccinini": "Sei speciale. È stata una fortuna averti conosciuto. Riesci ad alleggerire i momenti tristi con la tua spensieratezze e leggerezza, ma sei anche molto altro, sei una persona intelligente e sensibile come pochi. Mi manca il tempo che passavamo insieme, come quell'Halloween trascorso nel tuo garage. Presto riusciremo a rifarci un viaggetto. Do you remember what the frog is doing? Grazie di tutto Andre!",
+        "tommasograttini": "Il mio primo gymbro. Possiamo dire che la mia ossessione è nata anche a causa tua. È vero, la distanza non aiuta, ma non può cancellare ciò che siamo stati e quello che possiamo continuare ad essere. Sì, abbiamo litigato, ci siamo scontrati, ma sono i nostri caratteri e ancora di più è il bene che ci vogliamo che ci spinge a farlo e questo è la cosa più importante e che sempre rimarrà. Grazie perché ci sei e ti preoccupi per me. Ti voglio bene soldato! ",
+        "giorgiocaponi": "Per fortuna sono venuto a lavorare a Villa Castellani. Sei veramente quell'amico raro di cui tanto si parla. Le dinamiche a volte ci hanno rimbalzato lontano, ma non ci hanno mai separato perché sappiamo che dell'altro possiamo sempre fidarci. Ho bisogno di un amico come te, uno che se sbaglio me lo dice, che lo fa senza giudicarmi. Spero che presto riusciremo a farci una serata come ci accadeva qualche annetto fa, liberi e spensierati. Ballavamo sudati marci al Barracuda, con 36/48 ore di lavoro sulle spalle, non ci importava. Quello era il nostro posto, nessuno poteva togliercelo e nessuno ci poteva fermare. Ti voglio bene Chicco! ",        
+        "pietroseverini": "Oh bello, sei l'unica persona che può realmente dire che mi ha visto crescere. Dall'asilo nido ad oggi, sempre vicino, sempre al fianco l'uno dell'altro, come Bud e Terence. Forse per questo sei la persona che più mi conosce, sai a cosa sto pensando semplicemente guardando la mia espressione o allo stesso modo capisci se ti sto raccontando una cazzata. Come i nostri idoli, sai che insieme possiamo fare qualsiasi cosa ci venga in mente. Ti voglio bene! ",
+        "edoardodipietrantonio": "Abbiamo condiviso veramente una vita insieme, le prime scuole, il calcio. Crescendo ognuno ha fatto la propria vita, consapevole che lì, da qualche parte c'era l'altro. Prima magari guidati dai nostri genitori, poi da soli ci siamo sempre rimasti vicini. È stato bello ritrovarti a Padova, sei stato un ancora in uno dei periodi più bui della mia vita, ma anche un'ispirazione, un continuo insegnamento. Mi sono sentito come se fossi uscito dalla grotta e stessi finalmente esplorando un mondo per me nuovo e te mi hai aiutato a comprenderlo e ad apprezzarlo. Ti ringrazio perché se oggi sono una persona più cosciente del mondo che mi circonda lo devo molto anche a te! ",
+        "francescomaccari": "Grazie per ",
+        "chiaracornelio": "Stefano, collega di tirocinio e amico. Hai reso le giornate in ufficio piacevoli e mi hai insegnato tanto. Grazie!",
+        "leonardocirilli": "Stefano, collega di tirocinio e amico. Hai reso le giornate in ufficio piacevoli e mi hai insegnato tanto. Grazie!",
+        "giammarcostorani": "Stefano, collega di tirocinio e amico. Hai reso le giornate in ufficio piacevoli e mi hai insegnato tanto. Grazie!",
+        
+        // ATTENZIONE: il nome inserito dall'utente viene convertito in minuscolo prima del confronto.
+    };
+
+    // Messaggio di default (se il nome non è nella lista)
+    const defaultMessage = "Grazie per essere stato parte di questo viaggio. La tua vicinanza, anche silenziosa, mi ha dato la forza di arrivare fino in fondo. Ti sono grato.";
+
+    // ------------------------------------------------------------------
+    // 2. GESTIONE LOGIN E VISUALIZZAZIONE MESSAGGIO
+    // ------------------------------------------------------------------
+    const loginCard = document.getElementById('loginCard');
+    const userInput = document.getElementById('userInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const errorDiv = document.getElementById('errorMsg');
+
+    // Funzione per normalizzare il testo (togli spazi extra, converti in minuscolo)
+    function normalizeName(raw) {
+        return raw.trim().toLowerCase();
+    }
+
+    // Mostra il messaggio personalizzato all'interno della stessa card
+    function showMessage(personName, personalizedText) {
+        // Sostituisce il contenuto della card con la sola area messaggi
+        loginCard.innerHTML = `
+            <div class="message-area" style="display:block;">
+                <h3>💌 Ciao ${personName},</h3>
+                <p>${personalizedText}</p>
+                <button class="reset-btn" id="resetBtn">🔁 Torna alla schermata iniziale</button>
+            </div>
+            <footer style="margin-top:20px;">🎓 Tesi di Laurea – Giacomo</footer>
+        `;
+        const resetBtn = document.getElementById('resetBtn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                window.location.reload();
+            });
+        }
+    }
+
+    function attemptLogin() {
+        const rawName = userInput.value;
+        if (!rawName) {
+            errorDiv.style.display = 'block';
+            errorDiv.innerText = '❌ Inserisci un nome per continuare.';
+            return;
+        }
+        const normalized = normalizeName(rawName);
+        const displayName = rawName.trim();
+
+        if (messages[normalized]) {
+            // Nome riconosciuto: messaggio personalizzato
+            showMessage(displayName, messages[normalized]);
+        } else {
+            // Nome non riconosciuto: messaggio di default (nessun errore)
+            showMessage(displayName, defaultMessage);
+        }
+    }
+
+    loginBtn.addEventListener('click', attemptLogin);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            attemptLogin();
+        }
+    });
+</script>
+</body>
+</html>
